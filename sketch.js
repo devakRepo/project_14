@@ -1,3 +1,7 @@
+var PLAY =1;
+var END =0;
+var gameState =PLAY;
+
 var bow , arrow,  background, redB, pinkB, greenB ,blueB ,arrowGroup;
 var bowImage, arrowImage, green_balloonImage, red_balloonImage, pink_balloonImage ,blue_balloonImage, backgroundImage;
 
@@ -35,60 +39,18 @@ function setup() {
 }
 
 function draw() {
- background(0);
-  // moving ground
-  scene.velocityX = -3 
+ background("White");
+console.log(gameState);
 
-  if (scene.x < 0){
-    scene.x = scene.width/2;
-  }
+ if (gameState == PLAY) 
+ {
+  GamePlay();
+ } 
+ else if (gameState==END) 
+ {
+  //nothing
+ }
   
-  //moving bow
-  bow.y = World.mouseY
-  
-  // release arrow when space key is pressed
-  if (mouseWentDown("leftButton")) {
-    createArrow();
-  }
-  //creating continous enemies
-  var select_balloon = Math.round(random(1,4));
-  
-  if (World.frameCount % 30 == 0) {
-    if (select_balloon == 1) {
-      redBalloon();
-    } else if (select_balloon == 2) {
-      greenBalloon();
-    } else if (select_balloon == 3) {
-      blueBalloon();
-    } else {
-      pinkBalloon();
-    }
-  }
-  
-  if (arrowGroup.isTouching(redB)) {
-    
-    redB.destroyEach();
-    arrowGroup.destroyEach();
-    score=score+1;
-  }
-
-  if (arrowGroup.isTouching(greenB)) {
-    greenB.destroyEach();
-    arrowGroup.destroyEach();
-    score=score+3;
-  }
-
-  if (arrowGroup.isTouching(blueB)) {
-    blueB.destroyEach();
-    arrowGroup.destroyEach();
-    score=score+2;
-  }
-
-  if (arrowGroup.isTouching(pinkB)) {
-    pinkB.destroyEach();
-    arrowGroup.destroyEach();
-    score=score+1;
-  }
 
   drawSprites();
   text("Score: "+ score, 300,50);
@@ -140,7 +102,63 @@ function pinkBalloon() {
   arrow.velocityX = -4;
   arrow.lifetime = 100;
   arrow.scale = 0.3;
-
   arrowGroup.add(arrow);
    
 }
+
+function GamePlay() 
+{
+  scene.velocityX = -3 
+
+  if (scene.x < 0){
+    scene.x = scene.width/2;
+  }
+  
+  //moving bow
+  bow.y = World.mouseY
+  
+  // release arrow when space key is pressed
+  if (mouseWentDown("left")) {
+    createArrow();  
+  }
+  
+  //creating continous enemies
+  var select_balloon = Math.round(random(1,4));
+  
+  if (World.frameCount % 100 == 0) {
+    if (select_balloon == 1) {
+      redBalloon();
+    } else if (select_balloon == 2) {
+      greenBalloon();
+    } else if (select_balloon == 3) {
+      blueBalloon();
+    } else {
+      pinkBalloon();
+    }
+  }
+  
+  if (arrowGroup.isTouching(redB)) {
+    redB.destroyEach();
+    arrowGroup.destroyEach();
+    score=score+1;
+  }
+
+  if (arrowGroup.isTouching(greenB)) {
+    greenB.destroyEach();
+    arrowGroup.destroyEach();
+    score=score+3;
+  }
+
+  if (arrowGroup.isTouching(blueB)) {
+    blueB.destroyEach();
+    arrowGroup.destroyEach();
+    score=score+2;
+  }
+
+  if (arrowGroup.isTouching(pinkB)) {
+    pinkB.destroyEach();
+    arrowGroup.destroyEach();
+    score=score+1;
+  }
+}
+
