@@ -44,11 +44,18 @@ console.log(gameState);
 
  if (gameState == PLAY) 
  {
-  GamePlay();
+   GamePlay();
+   if (arrowGroup.x < 0)
+     gameState = END
  } 
  else if (gameState==END) 
  {
-  //nothing
+   text ("GAME OVER",200,200)
+   redB.velocityX = 0
+   blueB.velocityX = 0
+   greenB.velocityX = 0
+   pinkB.velocityX = 0
+   arrowGroup.velocityX = 0
  }
   
 
